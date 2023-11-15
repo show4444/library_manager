@@ -33,7 +33,7 @@ public class LoginUser implements UserDetails{
 	
 	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList("ROLE_USER");
+        return AuthorityUtils.NO_AUTHORITIES;
     }
 
     @Override

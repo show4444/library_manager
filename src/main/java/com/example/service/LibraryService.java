@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,4 +22,13 @@ public class LibraryService {
 	public List<Library> findAll(){
 		return this.libraryRepository.findAll();
 	}
+	
+	public Optional<Library> findById(Integer id) {
+		return libraryRepository.findById(id);
+	}
+
+	public Library update(Library library) {
+		return libraryRepository.save(library);
+	}
+	
 }

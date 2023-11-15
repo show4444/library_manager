@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+<html lang="ja"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
     th:replace="~{layouts/main :: main(~{::title}, ~{::body/content()})}">
 <head>
-    <title>図書一覧</title>
+    <title>貸し出し履歴</title>
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -24,31 +26,21 @@
                         <div class="content table-responsive table-full-width">
                             <table class="table table-hover">
                                 <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Title</th>
-                                    </tr>
+                                    <th>書籍名</th>
+                                    <th>貸し出し日</th>
+                                    <th>返却日</th>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="library : ${libraries}">
-										<td th:text="${library.id}"></td>
-										<td th:text="${library.name}"></td>
-										<td th:switch="${library.userId}">
-											<form th:case="0" th:action="@{/library/borrow}" method="get">
-												<input class="btn btn-info" type="submit" value="borrow">
-												<input type="hidden" name="id" th:value="${library.id}">
-											</form>
-											<form th:case="${#authentication.principal.user.id}" th:action="@{/library/return}" method="post">
-												<input class="btn btn-danger" type="submit" value="return">
-												<input type="hidden" name="id" th:value="${library.id}">
-											</form>
-											<div th:case="*" class="btn btn-success">borrowing</div>
-										</td>
-									</tr>
+                                    <tr th:each="log : ${logs}" class="">
+                                        <td th:text="${log.library.name}"></td>
+                                        <td th:text="${#temporals.format(log.rentDate, 'yyyy-MM-dd')}"></td>
+                                        <td th:text="${log.returnDate != null}? ${#temporals.format(log.returnDate, 'yyyy-MM-dd')} : '-'"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <a th:href="@{/library}">一覧へ戻る</a>
                 </div>
             </div>
         </div>
